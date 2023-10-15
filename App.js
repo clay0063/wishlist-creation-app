@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { PaperProvider } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
@@ -26,10 +26,47 @@ export default function App() {
       <PaperProvider>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="People Screen" component={PeopleScreen} />
-            <Stack.Screen name="Add Person Screen" component={AddPersonScreen} />
-            <Stack.Screen name="Idea Screen" component={IdeaScreen} />
-            <Stack.Screen name="Add Ideas Screen" component={AddIdeasScreen} />
+            <Stack.Screen name="People" component={PeopleScreen}
+              options={({ navigation }) => ({
+                headerRight: () => (
+                  <TouchableOpacity onPress={() => { navigation.navigate("Add Person") }}>
+                    <Text>Add Person</Text>
+                  </TouchableOpacity>
+                )
+              })}
+            />
+            <Stack.Screen name="Add Person" component={AddPersonScreen}
+              options={({ navigation }) => ({
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => { navigation.navigate("People") }}>
+                    <Text>Back</Text>
+                  </TouchableOpacity>
+                )
+              })}
+            />
+            <Stack.Screen name="Idea List" component={IdeaScreen} 
+              options={({ navigation }) => ({
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => { navigation.navigate("People") }}>
+                    <Text>Back</Text>
+                  </TouchableOpacity>
+                ),
+                headerRight: () => (
+                  <TouchableOpacity onPress={() => { navigation.navigate("Add Idea") }}>
+                    <Text>Add Idea</Text>
+                  </TouchableOpacity>
+                )
+              })}
+            />
+            <Stack.Screen name="Add Idea" component={AddIdeasScreen}
+              options={({ navigation }) => ({
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => { navigation.navigate("Idea List") }}>
+                    <Text>Back</Text>
+                  </TouchableOpacity>
+                )
+              })}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
