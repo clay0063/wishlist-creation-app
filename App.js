@@ -3,11 +3,13 @@ import { PaperProvider } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+// import { en, registerTranslation } from 'react-native-paper-dates'
 import PeopleScreen from "./screens/PeopleScreen";
 import AddPersonScreen from "./screens/AddPersonScreen";
 import IdeaScreen from "./screens/IdeaScreen";
 import AddIdeasScreen from "./screens/AddIdeasScreen";
 
+// registerTranslation('en', en)
 // const theme = {
 //   ...DefaultTheme,
 //   colors: {
