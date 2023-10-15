@@ -1,18 +1,13 @@
 import { Text, Button, TextInput } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import DatePicker from 'react-native-modern-datepicker';
 import { View, StyleSheet } from 'react-native'
-// import { DatePickerInput } from 'react-native-paper-dates';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState } from 'react'
 
 const AddPersonScreen = () => {
   const [name, setName] = useState("");
-  const [dob, setDob] = useState(new Date());
+  const [dob, setDob] = useState("");
 
-  const onChange = (ev, selectedDate) => {
-    const currentDate = selectedDate;
-    setDob(currentDate)
-  };
 
   return (
     <SafeAreaView style={{flex:1, backgroundColor:"#fff"}}>
@@ -25,16 +20,19 @@ const AddPersonScreen = () => {
           style={{width:"100%"}}
         />
         <Text>Birthday</Text>
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={dob}
-              mode={"date"}
-              onChange={onChange}
-              minimumDate={new Date(1900, 0, 1)}
-              maximumDate={new Date(2025, 0, 1)}
-              accentColor="purple"
-              // backgroundColor="blue"
-            />
+        <DatePicker
+          // options={{
+          //   backgroundColor: '#090C08',
+          //   textHeaderColor: '#FFA25B',
+          //   textDefaultColor: '#F6E7C1',
+          //   selectedTextColor: '#fff',
+          //   mainColor: '#F4722B',
+          //   textSecondaryColor: '#D6C7A1',
+          //   borderColor: 'rgba(122, 146, 165, 0.1)'
+          // }}
+          onSelectedChange={date => setDob(date)}
+          mode="calendar"
+        />
         <Button mode="outlined" onPress={() => console.log(name, dob)}>Save</Button>
         <Button buttonColor="red" mode="contained" onPress={() => console.log('Pressed')}>Cancel</Button>
       </View>
