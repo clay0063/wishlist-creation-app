@@ -7,6 +7,16 @@ import { useState } from 'react'
 const AddPersonScreen = ({navigation, route}) => {
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
+  const [peopleData, setPeopleData] = useState([]);
+
+  const handleSaveData = () => {
+    if (name.trim() !== '') {
+      const dataBundle = {"name": name, "dob": dob};
+      setPeopleData((prevData) => [...prevData, dataBundle]);
+      setName(""); // Clear the input field after saving
+      setDob("");
+    }
+  };
 
 
   return (
@@ -33,7 +43,13 @@ const AddPersonScreen = ({navigation, route}) => {
           onSelectedChange={date => setDob(date)}
           mode="calendar"
         />
-        <Button mode="outlined" onPress={() => console.log(name, dob)}>Save</Button>
+        <Button mode="outlined" onPress={() => {
+          console.log(name, dob)
+          handleSaveData()
+        }}>Save</Button>
+        <Button mode="outlined" onPress={() => {
+          console.log(peopleData)
+        }}>Display Data</Button>
         <Button buttonColor="red" mode="contained" onPress={() => navigation.navigate("People")}>Cancel</Button>
       </View>
     </SafeAreaView>
