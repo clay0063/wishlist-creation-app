@@ -4,7 +4,7 @@ import DatePicker from 'react-native-modern-datepicker';
 import { View, StyleSheet } from 'react-native'
 import { useState } from 'react'
 
-const AddPersonScreen = () => {
+const AddPersonScreen = ({navigation, route}) => {
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
 
@@ -34,7 +34,7 @@ const AddPersonScreen = () => {
           mode="calendar"
         />
         <Button mode="outlined" onPress={() => console.log(name, dob)}>Save</Button>
-        <Button buttonColor="red" mode="contained" onPress={() => console.log('Pressed')}>Cancel</Button>
+        <Button buttonColor="red" mode="contained" onPress={() => navigation.navigate("People")}>Cancel</Button>
       </View>
     </SafeAreaView>
   )
