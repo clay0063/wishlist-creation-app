@@ -47,14 +47,14 @@ export default function App() {
                 })}
               />
               <Stack.Screen name="Idea List" component={IdeaScreen} 
-                options={({ navigation }) => ({
+                options={({ route, navigation }) => ({
                   headerLeft: () => (
                     <TouchableOpacity onPress={() => { navigation.navigate("People") }}>
                       <Text>Back</Text>
                     </TouchableOpacity>
                   ),
                   headerRight: () => (
-                    <TouchableOpacity onPress={() => { navigation.navigate("Add Idea") }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate("Add Idea", { uid: route.params.uid }) }}>
                       <Text>Add Idea</Text>
                     </TouchableOpacity>
                   )

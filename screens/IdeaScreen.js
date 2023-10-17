@@ -36,9 +36,9 @@ const IdeaScreen = ({route, navigation}) => {
             <ListItem
               id={item.id}
               text={item.text}
-              img={item.img}
-              width={item.width}
-              height={item.height}
+              // img={item.img}
+              // width={item.width}
+              // height={item.height}
             />
           )}
           keyExtractor={(item)=>item.id}
