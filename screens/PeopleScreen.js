@@ -3,9 +3,16 @@ import { View } from "react-native";
 import { useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
+import { useList } from "../context/ListContext";
+import { useEffect } from "react";
 
 const PeopleScreen = ({navigation, route}) => {
   const theme = useTheme();
+  const [fullList, updateStorageList] = useList();
+
+  useEffect(()=>{
+    console.log(fullList)
+  }, []);
 
   //if nothing in array then display Nothing saved yet...
   

@@ -3,18 +3,19 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import DatePicker from 'react-native-modern-datepicker';
 import { View, StyleSheet } from 'react-native'
 import { useState } from 'react'
+import { useList } from '../context/ListContext';
 
 const AddPersonScreen = ({navigation, route}) => {
+  const [fullList, setFullList] = useList();
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
-  const [peopleData, setPeopleData] = useState([]);
 
   const handleSaveData = () => {
     if (name.trim() !== '') {
       const dataBundle = {"name": name, "dob": dob};
-      setPeopleData((prevData) => [...prevData, dataBundle]);
-      setName(""); // Clear the input field after saving
+      setName(""); 
       setDob("");
+      setFullList([...fullList, dataBundle]);
     }
   };
 
@@ -43,12 +44,9 @@ const AddPersonScreen = ({navigation, route}) => {
           onSelectedChange={date => setDob(date)}
           mode="calendar"
         />
+        <Button mode="outlined" onPress={() => handleSaveData()}>Save</Button>
         <Button mode="outlined" onPress={() => {
-          console.log(name, dob)
-          handleSaveData()
-        }}>Save</Button>
-        <Button mode="outlined" onPress={() => {
-          console.log(peopleData)
+          console.log(fullList)
         }}>Display Data</Button>
         <Button buttonColor="red" mode="contained" onPress={() => navigation.navigate("People")}>Cancel</Button>
       </View>
