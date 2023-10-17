@@ -37,7 +37,3 @@ function useList() {
 }
 
 export { useList, ListProvider };
-
-// const clearFullList = async () => {
-//   await AsyncStorage.setItem(FULL_LIST_KEY, JSON.stringify([]));
-// };

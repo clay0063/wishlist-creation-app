@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
-import { useList } from "../context/ListContext";
+import { useList, clearFullList } from "../context/ListContext";
 import { useEffect } from "react";
 
 const PeopleScreen = ({navigation, route}) => {
@@ -25,6 +25,9 @@ const PeopleScreen = ({navigation, route}) => {
         <Text variant="bodyLarge">No one added yet...</Text>
         <Button mode="contained" onPress={() => navigation.navigate("Idea List")}>
           Ideas
+        </Button>
+        <Button mode="contained" onPress={() => {updateStorageList([])}}>
+          Clear Full List
         </Button>
       </View>
     </SafeAreaView>

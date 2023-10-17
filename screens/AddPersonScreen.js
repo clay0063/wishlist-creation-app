@@ -11,15 +11,21 @@ const AddPersonScreen = ({navigation, route}) => {
   const [dob, setDob] = useState("");
 
   const handleSaveData = () => {
-    if (name.trim() !== '') {
-      const dataBundle = {"name": name, "dob": dob};
+    if (name.trim() !== '' && dob.length !== 0) {
+      const personName = name.trim();
+      const personDate = dob.replaceAll("/", "-");
+      const dataBundle = {"name": personName, "date": personDate};
+      setFullList([...fullList, dataBundle]);
+      //TODO: Make it so that if the save fails, it alerts the user
       setName(""); 
       setDob("");
-      setFullList([...fullList, dataBundle]);
+    } else { 
+      console.log('missing name or date')
+      //TODO: change this to an alert
     }
   };
 
-
+  //TODO: make it so that the Save Button is disabled unless both are filled out
   return (
     <SafeAreaView style={{flex:1, backgroundColor:"#fff"}}>
       <View style={styles.container}>
