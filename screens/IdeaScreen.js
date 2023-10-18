@@ -2,14 +2,10 @@ import { View, Text, FlatList } from 'react-native'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useList } from "../context/ListContext";
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const IdeaScreen = ({route, navigation}) => {
-  const [fullList] = useList();
-  const id = route.params.uid;
-  const person = fullList.find(item => item.uid === id)
-  console.log(person)
-  const items = person.ideas;
+  const items = useList().getItemsByID(route.params.uid);
 
   function NoData() {
     return (
@@ -30,7 +26,7 @@ const IdeaScreen = ({route, navigation}) => {
   return (
     <SafeAreaView style={{flex:1, backgroundColor:"#fff"}}>
       <View style={styles.container}>
-        <Text>Item list for {person.name}</Text>
+        <Text>Item list</Text>
         <FlatList
           data={items}
           renderItem={ ({item}) => (
