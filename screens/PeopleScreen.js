@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 const PeopleScreen = ({navigation, route}) => {
   const theme = useTheme();
-  const [fullList, updateStorageList] = useList();
+  const [fullList] = useList();
 
   useEffect(()=>{
     // console.log(fullList);
@@ -42,7 +42,7 @@ const PeopleScreen = ({navigation, route}) => {
 
   function SortByDate(data){
     if (data.length>=2) {
-      const sortedData = data.slice().sort((a, b) => {
+      const sortedData = data.sort((a, b) => {
         const dateA = new Date(a.date);
         const dateB = new Date(b.date);
         const monthSort = dateA.getMonth() - dateB.getMonth();
@@ -74,9 +74,6 @@ const PeopleScreen = ({navigation, route}) => {
           keyExtractor={(person)=> person.uid}
           ListEmptyComponent={<NoData />}
         />
-        <Button mode="contained" onPress={() => {updateStorageList([])}}>
-          Clear Full List
-        </Button>
       </View>
     </SafeAreaView>
   )

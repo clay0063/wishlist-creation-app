@@ -1,25 +1,36 @@
-import { Text, Button, TextInput } from 'react-native-paper'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import DatePicker from 'react-native-modern-datepicker';
-import { View, StyleSheet } from 'react-native'
-import { useState } from 'react'
-import { useList } from '../context/ListContext';
+import { Text, Button, TextInput, Portal, Modal } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
+import DatePicker from "react-native-modern-datepicker";
+import { View, StyleSheet } from "react-native";
+import { useState } from "react";
+import { useList } from "../context/ListContext";
 
-const AddPersonScreen = ({navigation, route}) => {
-  const [fullList, setFullList] = useList();
+const AddPersonScreen = ({ navigation, route }) => {
+  const [fullList, updateStorageList] = useList();
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSaveData = () => {
-    if (name.trim() !== '' && dob.length !== 0) {
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => {
+    setVisible(false);
+    setErrorMessage("");
+  };
+
+  const handleSaveData = async () => {
+    if (name.trim() !== "" && dob.length !== 0) {
       const data = bundleData();
-      setFullList([...fullList, data]);
-      //TODO: Make it so that if the save fails, it alerts the user
-      setName(""); 
-      setDob("");
-    } else { 
-      console.log('missing name or date')
-      //TODO: change this to an alert
+      try {
+        await updateStorageList([...fullList, data]);
+        navigation.navigate("People");
+      } catch (error) {
+        setErrorMessage(error.message);
+        showModal();
+      }
+    } else {
+      console.log("missing name or date");
     }
   };
 
@@ -30,28 +41,44 @@ const AddPersonScreen = ({navigation, route}) => {
     const index = fullList.length;
     const random = Math.random().toString(16).substring(2);
     const uid = index + "-" + random;
-    const dataBundle = {"name": personName, "date": personDate, "uid": uid, "ideas": []};
+    const dataBundle = {
+      name: personName,
+      date: personDate,
+      uid: uid,
+      ideas: [],
+    };
     return dataBundle;
-  }
+  };
 
   const dateMath = (date) => {
     const dateObject = new Date(date);
     const offset = dateObject.getTimezoneOffset();
-    const hoursOffset = offset/60;
+    const hoursOffset = offset / 60;
     dateObject.setHours(dateObject.getHours() + hoursOffset);
-    return dateObject
+    return dateObject;
+  };
+
+  const ErrorModal = () => {
+    return (
+      <Portal>
+        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={{backgroundColor: 'white', padding: 20}}>
+          <Text>{errorMessage}</Text>
+        </Modal>
+      </Portal>
+    )
+    
   }
 
   //TODO: make it so that the Save Button is disabled unless both are filled out
   return (
-    <SafeAreaView style={{flex:1, backgroundColor:"#fff"}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <View style={styles.container}>
         <Text>Name</Text>
         <TextInput
           // label="Name"
           value={name}
-          onChangeText={text => setName(text)}
-          style={{width:"100%"}}
+          onChangeText={(text) => setName(text)}
+          style={{ width: "100%" }}
         />
         <Text>Birthday</Text>
         <DatePicker
@@ -64,26 +91,40 @@ const AddPersonScreen = ({navigation, route}) => {
           //   textSecondaryColor: '#D6C7A1',
           //   borderColor: 'rgba(122, 146, 165, 0.1)'
           // }}
-          onSelectedChange={date => setDob(date)}
+          onSelectedChange={(date) => setDob(date)}
           mode="calendar"
         />
-        <Button mode="outlined" onPress={() => handleSaveData()}>Save</Button>
-        <Button mode="outlined" onPress={() => {
-          console.log(fullList)
-        }}>Display Data</Button>
-        <Button buttonColor="red" mode="contained" onPress={() => navigation.navigate("People")}>Cancel</Button>
+        <Button mode="outlined" onPress={() => handleSaveData()}>
+          Save
+        </Button>
+        <Button
+          buttonColor="red"
+          mode="contained"
+          onPress={() => navigation.navigate("People")}
+        >
+          Cancel
+        </Button>
+        <Button
+          mode="contained"
+          onPress={() => {
+            updateStorageList([]);
+          }}
+        >
+          Clear Full List
+        </Button>
       </View>
+      <ErrorModal />
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 4,
   },
 });
 
-export default AddPersonScreen
+export default AddPersonScreen;
