@@ -25,12 +25,21 @@ const AddPersonScreen = ({navigation, route}) => {
 
   const bundleData = () => {
     const personName = name.trim();
-    const personDate = dob.replaceAll("/", "-");
+    const dateString = dob.replaceAll("/", "-");
+    const personDate = dateMath(dateString);
     const index = fullList.length;
     const random = Math.random().toString(16).substring(2);
     const uid = index + "-" + random;
     const dataBundle = {"name": personName, "date": personDate, "uid": uid, "ideas": []};
     return dataBundle;
+  }
+
+  const dateMath = (date) => {
+    const dateObject = new Date(date);
+    const offset = dateObject.getTimezoneOffset();
+    const hoursOffset = offset/60;
+    dateObject.setHours(dateObject.getHours() + hoursOffset);
+    return dateObject
   }
 
   //TODO: make it so that the Save Button is disabled unless both are filled out

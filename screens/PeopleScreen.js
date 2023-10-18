@@ -1,4 +1,4 @@
-import { Button, Text, Divider } from "react-native-paper";
+import { Button, Text, Divider, IconButton } from "react-native-paper";
 import { FlatList, View } from "react-native";
 import { useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,30 +11,50 @@ const PeopleScreen = ({navigation, route}) => {
   const [fullList, updateStorageList] = useList();
 
   useEffect(()=>{
-    console.log(fullList)
+    // console.log(fullList);
   }, []);
 
   //if nothing in array then display Nothing saved yet...
   function NoData() {
     return (
       <View>
-        <Text>No one saved yet</Text>
+        <Text>You have no people saved yet.</Text>
+        <Button onPress={() => navigation.navigate("Add Person")}>Add a person?</Button>
       </View>
     )
   }
   
   //if array then loop thru and display
   function ListItem({uid, name, date}) {
+    const dateObject = new Date(date)
+    const dateString = dateObject.toLocaleDateString('en-ca', {month:'long', day:'numeric'});
     return (
       <View style={{padding:30}}>
-        <Text>{uid}</Text>
         <Text>{name}</Text>
-        <Text>{date}</Text>
-        <Button mode="contained" onPress={() => navigation.navigate("Idea List", {uid: uid})}>
+        <Text>{dateString}</Text>
+        <IconButton mode="contained" icon="lightbulb-on-outline"
+          onPress={() => navigation.navigate("Idea List", {uid: uid})}>
           Ideas
-        </Button>
+        </IconButton>
       </View>
     )
+  }
+
+  function SortByDate(data){
+    if (data.length>=2) {
+      const sortedData = data.slice().sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        const monthSort = dateA.getMonth() - dateB.getMonth();
+        if (monthSort === 0) {
+          return dateA.getDate() - dateB.getDate();
+        }
+        return monthSort
+      })
+      return sortedData
+    } else {
+      return data
+    }
   }
 
   return (
@@ -43,7 +63,7 @@ const PeopleScreen = ({navigation, route}) => {
         <Text variant="titleLarge">People List</Text>
         <Divider style={{width:'100%'}} />
         <FlatList
-          data={fullList}
+          data={SortByDate(fullList)}
           renderItem={ ({item}) => (
             <ListItem 
               uid={item.uid}

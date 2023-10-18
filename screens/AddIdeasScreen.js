@@ -7,7 +7,6 @@ import { useList } from '../context/ListContext';
 const AddIdeasScreen = ({navigation, route}) => {
   const [fullList, setFullList] = useList();
   const id = route.params.uid;
-  const person = fullList.find(item => item.uid === id);
   const [text, setText] = useState("");
 
   const handleSaveData = () => {
