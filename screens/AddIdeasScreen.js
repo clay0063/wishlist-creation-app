@@ -1,13 +1,17 @@
 import { Text, Button, TextInput } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Image } from 'react-native'
 import { useState } from 'react'
 import { useList } from '../context/ListContext';
+import { Camera } from 'expo-camera';
+import UseCamera from "../components/UseCamera";
+
 
 const AddIdeasScreen = ({navigation, route}) => {
   const {fullList, addItemByID} = useList();
   const id = route.params.uid;
   const [text, setText] = useState("");
+  const [image, setImage] = useState(null);
 
   const handleSaveData = async () => {
     if (text.trim() !== '') {
@@ -23,6 +27,10 @@ const AddIdeasScreen = ({navigation, route}) => {
       //TODO: change this to an alert
     }
   };
+
+  const handlePhotoTaken = (img) => {
+    setImage(img);
+  }
 
   const bundleData = () => {
     const itemName = text.trim();
@@ -42,7 +50,15 @@ const AddIdeasScreen = ({navigation, route}) => {
           onChangeText={text => setText(text)}
           style={{width:"100%"}}
         />
-        
+        <UseCamera onPhotoTaken={handlePhotoTaken} />
+        <View>
+          <Text>Image View</Text>
+          {image ? (
+            <Image source={{uri:image.uri}} width={image.width} height={image.height}></Image>
+          ) : (
+            <Text>No image currently</Text>
+          )}
+        </View>
         <Button mode="outlined" onPress={() => handleSaveData()}>Save</Button>
         <Button mode="outlined" onPress={() => {
           console.log(fullList)

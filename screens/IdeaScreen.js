@@ -22,6 +22,10 @@ const IdeaScreen = ({route, navigation}) => {
     return(
       <View style={[{padding:30}]}>
         <Text>{params.text}</Text>
+        <IconButton
+          mode="contained" icon="trash-can-outline"
+          onPress={() => console.log(params.id)}
+        />
       </View>
     )
   }
