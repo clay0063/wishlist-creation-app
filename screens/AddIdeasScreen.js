@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { useList } from '../context/ListContext';
 
 const AddIdeasScreen = ({navigation, route}) => {
-  const [fullList, _, addItemByID] = useList();
+  const {fullList, addItemByID} = useList();
   const id = route.params.uid;
   const [text, setText] = useState("");
 
@@ -14,7 +14,7 @@ const AddIdeasScreen = ({navigation, route}) => {
       const data = bundleData();
       try {
         await addItemByID(id, data);
-        navigation.navigate("Idea List")
+        navigation.navigate("Idea List", {uid: id})
       } catch (error) {
         console.log(error)
       }
@@ -47,7 +47,7 @@ const AddIdeasScreen = ({navigation, route}) => {
         <Button mode="outlined" onPress={() => {
           console.log(fullList)
         }}>Display Data</Button>
-        <Button buttonColor="red" mode="contained" onPress={() => navigation.navigate("People")}>Cancel</Button>
+        <Button buttonColor="red" mode="contained" onPress={() => navigation.navigate("Ideas List", {uid: id})}>Cancel</Button>
       </View>
     </SafeAreaView>
   )

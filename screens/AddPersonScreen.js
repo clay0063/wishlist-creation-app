@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useList } from "../context/ListContext";
 
 const AddPersonScreen = ({ navigation, route }) => {
-  const [fullList, updateStorageList] = useList();
+  const {fullList, updateStorageList} = useList();
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
   const [visible, setVisible] = useState(false);

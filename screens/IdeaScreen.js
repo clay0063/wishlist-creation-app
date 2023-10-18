@@ -1,16 +1,19 @@
-import { View, Text, FlatList } from 'react-native'
+import { Button, Text, Divider, IconButton } from "react-native-paper";
+import { View, FlatList } from 'react-native'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useList } from "../context/ListContext";
 import React, { useEffect } from 'react'
 
 const IdeaScreen = ({route, navigation}) => {
-  const items = useList().getItemsByID(route.params.uid);
+  const { getItemsByID } = useList();
+  const items = getItemsByID(route.params.uid);
 
   function NoData() {
     return (
       <View>
-        <Text>No items saved yet</Text>
+        <Text>No ideas saved yet.</Text>
+        <Button onPress={() => navigation.navigate("Add Idea", {uid: route.params.uid}) }>Add an idea?</Button>
       </View>
     )
   }

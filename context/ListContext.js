@@ -36,7 +36,14 @@ function ListProvider(props) {
     return person.ideas;
   }
 
-  return <ListContext.Provider value={[fullList, updateStorageList, addItemByID, getItemsByID]} {...props} />;
+  const contextValue = {
+    fullList, 
+    updateStorageList, 
+    addItemByID, 
+    getItemsByID
+  }
+
+  return <ListContext.Provider value={contextValue} {...props} />;
 }
 
 function useList() {
