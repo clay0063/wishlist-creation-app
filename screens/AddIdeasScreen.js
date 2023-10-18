@@ -5,17 +5,22 @@ import { useState } from 'react'
 import { useList } from '../context/ListContext';
 
 const AddIdeasScreen = ({navigation, route}) => {
-  const id = route.params.uid;
   const [fullList, setFullList] = useList();
+  const id = route.params.uid;
+  const person = fullList.find(item => item.uid === id);
   const [text, setText] = useState("");
-  console.log(id);
+
   const handleSaveData = () => {
+    const updatedList = [...fullList];
+    const index = updatedList.findIndex((person) => person.uid === id);
+    const updatedPerson = {...updatedList[index]};
     if (text.trim() !== '') {
       const data = bundleData();
-      setFullList([...fullList, data]);
+      updatedPerson.ideas = [...updatedPerson.ideas, data];
+      updatedList[index] = updatedPerson;
+      setFullList(updatedList);
       //TODO: Make it so that if the save fails, it alerts the user
-      setName(""); 
-      setDob("");
+      setText(""); 
     } else { 
       console.log('missing name or date')
       //TODO: change this to an alert
@@ -24,10 +29,9 @@ const AddIdeasScreen = ({navigation, route}) => {
 
   const bundleData = () => {
     const itemName = text.trim();
-    const index = fullList.length;
     const random = Math.random().toString(16).substring(2);
-    const uid = index + "-" + random;
-    const dataBundle = {"name": personName, "date": personDate, "uid": uid, "ideas": []};
+    const id = random;
+    const dataBundle = {"text": itemName, "id": id};
     return dataBundle;
   }
 
