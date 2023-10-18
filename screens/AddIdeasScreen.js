@@ -5,21 +5,19 @@ import { useState } from 'react'
 import { useList } from '../context/ListContext';
 
 const AddIdeasScreen = ({navigation, route}) => {
-  const [fullList, setFullList] = useList();
+  const [fullList, _, addItemByID] = useList();
   const id = route.params.uid;
   const [text, setText] = useState("");
 
-  const handleSaveData = () => {
-    const updatedList = [...fullList];
-    const index = updatedList.findIndex((person) => person.uid === id);
-    const updatedPerson = {...updatedList[index]};
+  const handleSaveData = async () => {
     if (text.trim() !== '') {
       const data = bundleData();
-      updatedPerson.ideas = [...updatedPerson.ideas, data];
-      updatedList[index] = updatedPerson;
-      setFullList(updatedList);
-      //TODO: Make it so that if the save fails, it alerts the user
-      setText(""); 
+      try {
+        await addItemByID(id, data);
+        navigation.navigate("Idea List")
+      } catch (error) {
+        console.log(error)
+      }
     } else { 
       console.log('missing name or date')
       //TODO: change this to an alert

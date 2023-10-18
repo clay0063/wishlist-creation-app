@@ -19,14 +19,21 @@ function ListProvider(props) {
       setFullList(newList);
       await AsyncStorage.setItem(FULL_LIST_KEY, JSON.stringify(newList));
     }
-    
   }
 
-  // const addOneItem = async () => {}
-  // const deleteOneItem = async () => {}
-  // const updateOneItem = async () => {}
+  const addItemByID = async (id, data) => {
+    console.log("The id in context is: " + id);
+    console.log("The data in context is: " + data)
+    const newList = [...fullList];
+    const index = newList.findIndex((person) => person.uid === id);
+    const updatedPerson = { ...newList[index] };
+    updatedPerson.ideas = [...updatedPerson.ideas, data];
+    newList[index] = updatedPerson;
+    console.log("The new list to be added is: " + newList);
+    await updateStorageList(newList);
+  };
 
-  return <ListContext.Provider value={[fullList, updateStorageList]} {...props} />;
+  return <ListContext.Provider value={[fullList, updateStorageList, addItemByID]} {...props} />;
 }
 
 function useList() {

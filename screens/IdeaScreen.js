@@ -5,9 +5,10 @@ import { useList } from "../context/ListContext";
 import React from 'react'
 
 const IdeaScreen = ({route, navigation}) => {
-  const [fullList, updateStorageList] = useList();
+  const [fullList] = useList();
   const id = route.params.uid;
   const person = fullList.find(item => item.uid === id)
+  console.log(person)
   const items = person.ideas;
 
   function NoData() {
