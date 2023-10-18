@@ -1,7 +1,7 @@
 import { Text, Button, TextInput, Portal, Modal } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DatePicker from "react-native-modern-datepicker";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { useState } from "react";
 import { useList } from "../context/ListContext";
 
@@ -11,7 +11,6 @@ const AddPersonScreen = ({ navigation, route }) => {
   const [dob, setDob] = useState("");
   const [visible, setVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
 
   const showModal = () => setVisible(true);
   const hideModal = () => {
@@ -61,25 +60,30 @@ const AddPersonScreen = ({ navigation, route }) => {
   const ErrorModal = () => {
     return (
       <Portal>
-        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={{backgroundColor: 'white', padding: 20}}>
+        <Modal
+          visible={visible}
+          onDismiss={hideModal}
+          contentContainerStyle={{ backgroundColor: "white", padding: 20 }}
+        >
           <Text>{errorMessage}</Text>
         </Modal>
       </Portal>
-    )
-    
-  }
+    );
+  };
 
   //TODO: make it so that the Save Button is disabled unless both are filled out
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <View style={styles.container}>
-        <Text>Name</Text>
-        <TextInput
-          // label="Name"
-          value={name}
-          onChangeText={(text) => setName(text)}
-          style={{ width: "100%" }}
-        />
+        <KeyboardAvoidingView>
+          <Text>Name</Text>
+          <TextInput
+            // label="Name"
+            value={name}
+            onChangeText={(text) => setName(text)}
+            style={{ width: "100%" }}
+          />
+        </KeyboardAvoidingView>
         <Text>Birthday</Text>
         <DatePicker
           // options={{
