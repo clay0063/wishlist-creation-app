@@ -6,8 +6,13 @@ import { useList } from "../context/ListContext";
 import React, { useEffect } from 'react'
 
 const IdeaScreen = ({route, navigation}) => {
-  const { getItemsByID } = useList();
+  const { getItemsByID, deleteItem } = useList();
   const items = getItemsByID(route.params.uid);
+
+  async function deleteIdea(itemID) {
+    console.log(route.params.uid, itemID);
+    await deleteItem(route.params.uid, itemID);
+  }
 
   function NoData() {
     return (
@@ -29,7 +34,7 @@ const IdeaScreen = ({route, navigation}) => {
         <Image source={{uri:params.img}} width={w} height={h}></Image>
         <IconButton
           mode="contained" icon="trash-can-outline"
-          onPress={() => console.log(params.id)}
+          onPress={() => deleteIdea(params.id)}
         />
       </View>
     )

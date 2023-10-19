@@ -30,6 +30,16 @@ function ListProvider(props) {
     await updateStorageList(newList);
   };
 
+  const deleteItem = async (personID, itemID) => {
+    const newList = [...fullList];
+    const personIndex = newList.findIndex((person) => person.uid === personID);
+    const itemList = newList[personIndex].ideas;
+    const itemIndex = itemList.findIndex((idea) => idea.id === itemID);
+    itemList.splice(itemIndex, 1);
+    console.log(newList[personIndex]);
+    await updateStorageList(newList);
+  }
+
   const getItemsByID = (id) => {
     const person = fullList.find((item) => item.uid === id);
     return person.ideas;
@@ -39,7 +49,8 @@ function ListProvider(props) {
     fullList, 
     updateStorageList, 
     addItemByID, 
-    getItemsByID
+    getItemsByID,
+    deleteItem
   }
 
   return <ListContext.Provider value={contextValue} {...props} />;
