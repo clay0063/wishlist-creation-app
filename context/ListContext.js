@@ -31,8 +31,7 @@ function ListProvider(props) {
   };
 
   const getItemsByID = (id) => {
-    const person = fullList.find((item) => item.uid === id)
-    console.log(person)
+    const person = fullList.find((item) => item.uid === id);
     return person.ideas;
   }
 

@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 const PeopleScreen = ({navigation, route}) => {
   const theme = useTheme();
-  const {fullList} = useList();
+  const {fullList, updateStorageList} = useList();
 
   useEffect(()=>{
     console.log(fullList);

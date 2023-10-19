@@ -22,6 +22,8 @@ const IdeaScreen = ({route, navigation}) => {
     return(
       <View style={[{padding:30}]}>
         <Text>{params.text}</Text>
+        <Text>{params.height} :  {params.width}</Text>
+        <Text>{params.img}</Text>
         <IconButton
           mode="contained" icon="trash-can-outline"
           onPress={() => console.log(params.id)}
@@ -40,9 +42,9 @@ const IdeaScreen = ({route, navigation}) => {
             <ListItem
               id={item.id}
               text={item.text}
-              // img={item.img}
-              // width={item.width}
-              // height={item.height}
+              img={item.uri}
+              width={item.width}
+              height={item.height}
             />
           )}
           keyExtractor={(item)=>item.id}

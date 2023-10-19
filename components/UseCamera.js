@@ -9,7 +9,7 @@ const UseCamera = ({ onPhotoTaken }) => {
   const screen = useWindowDimensions();
   const screenWidth = screen.width;
   const screenHeight = screen.height;
-
+  const ratio = "3:2"
   const [type, setType] = useState(CameraType.back);
   let camera = useRef();
   const [hasPermission, setHasPermission] = useState(false);
@@ -23,7 +23,7 @@ const UseCamera = ({ onPhotoTaken }) => {
       
     })
     .then((result)=>{
-      //result from getAvailablePictureSizesAsync()
+      // result from getAvailablePictureSizesAsync()
       console.log(result)
     })
     .catch(err=>console.log(err.message))
@@ -46,6 +46,7 @@ const UseCamera = ({ onPhotoTaken }) => {
       if(pic){
         let w = screenWidth * 0.6 //makes it 60%
         let h = (w / pic.width) * pic.height //gets the ratio image size and scales down
+        console.log(w, h)
         onPhotoTaken({uri: pic.uri, width:w, height: h})
       } else {
         //no pic
@@ -62,7 +63,7 @@ const UseCamera = ({ onPhotoTaken }) => {
       { hasPermission ? (
         <>
           <Text>{'Granted'}</Text>
-          <Camera type={type} ref={(r)=>{camera = r}}>
+          <Camera type={type} ref={(r)=>{camera = r}} ratio={ratio} >
             <Pressable onPress={()=>{takePhoto()}}>
               <View style={{backgroundColor:'black', flex:1, alignItems:'center'}}>
                 <MaterialIcons name="camera-alt" size={50} color="white"></MaterialIcons>

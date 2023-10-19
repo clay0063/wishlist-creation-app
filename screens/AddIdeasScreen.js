@@ -3,7 +3,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { View, StyleSheet, Image } from 'react-native'
 import { useState } from 'react'
 import { useList } from '../context/ListContext';
-import { Camera } from 'expo-camera';
 import UseCamera from "../components/UseCamera";
 
 
@@ -14,7 +13,7 @@ const AddIdeasScreen = ({navigation, route}) => {
   const [image, setImage] = useState(null);
 
   const handleSaveData = async () => {
-    if (text.trim() !== '') {
+    if (text.trim() !== '' && image) {
       const data = bundleData();
       try {
         await addItemByID(id, data);
@@ -36,7 +35,7 @@ const AddIdeasScreen = ({navigation, route}) => {
     const itemName = text.trim();
     const random = Math.random().toString(16).substring(2);
     const id = random;
-    const dataBundle = {"text": itemName, "id": id};
+    const dataBundle = {...image, "text": itemName, "id": id };
     return dataBundle;
   }
 
@@ -60,9 +59,6 @@ const AddIdeasScreen = ({navigation, route}) => {
           )}
         </View>
         <Button mode="outlined" onPress={() => handleSaveData()}>Save</Button>
-        <Button mode="outlined" onPress={() => {
-          console.log(fullList)
-        }}>Display Data</Button>
         <Button buttonColor="red" mode="contained" onPress={() => navigation.navigate("Ideas List", {uid: id})}>Cancel</Button>
       </View>
     </SafeAreaView>
