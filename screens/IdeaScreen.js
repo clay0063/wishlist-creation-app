@@ -1,5 +1,5 @@
 import { Button, Text, Divider, IconButton } from "react-native-paper";
-import { View, FlatList } from 'react-native'
+import { View, FlatList, Image } from 'react-native'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useList } from "../context/ListContext";
@@ -19,11 +19,14 @@ const IdeaScreen = ({route, navigation}) => {
   }
   
   function ListItem(params) {
+    const w = params.width / 2
+    const h = params.height / 2
+    console.log(params.img)
     return(
       <View style={[{padding:30}]}>
         <Text>{params.text}</Text>
         <Text>{params.height} :  {params.width}</Text>
-        <Text>{params.img}</Text>
+        <Image source={{uri:params.img}} width={w} height={h}></Image>
         <IconButton
           mode="contained" icon="trash-can-outline"
           onPress={() => console.log(params.id)}
