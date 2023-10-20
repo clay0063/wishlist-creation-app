@@ -19,8 +19,6 @@ const IdeaScreen = ({route, navigation}) => {
   const clearError = () => {
     setErrorMessage("");
   };
-  
-
 
   async function deleteIdea(itemID) {
     try {
