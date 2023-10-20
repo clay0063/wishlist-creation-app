@@ -1,10 +1,11 @@
 
+import * as Crypto from 'expo-crypto';
+
 const bundlePeopleData = (name, dob) => {
   const personName = name.trim();
   const dateString = dob.replaceAll("/", "-");
   const personDate = dateMath(dateString);
-  const random = Math.random().toString(16).substring(2);
-  const uid = random;
+  const uid = Crypto.randomUUID();
   const dataBundle = {
     name: personName,
     date: personDate,

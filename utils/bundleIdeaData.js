@@ -1,7 +1,8 @@
+import * as Crypto from 'expo-crypto';
+
 const bundleIdeaData = (text, image) => {
     const itemName = text.trim();
-    const random = Math.random().toString(16).substring(2);
-    const id = random;
+    const id = Crypto.randomUUID();
     const dataBundle = {...image, "text": itemName, "id": id };
     return dataBundle;
 }
