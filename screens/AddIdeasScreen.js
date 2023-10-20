@@ -4,6 +4,7 @@ import { View, StyleSheet, Image } from 'react-native'
 import { useState } from 'react'
 import { useList } from '../context/ListContext';
 import UseCamera from "../components/UseCamera";
+import CancelButton from '../components/CancelButton';
 
 
 const AddIdeasScreen = ({navigation, route}) => {
@@ -59,7 +60,7 @@ const AddIdeasScreen = ({navigation, route}) => {
           )}
         </View>
         <Button mode="outlined" onPress={() => handleSaveData()}>Save</Button>
-        <Button buttonColor="red" mode="contained" onPress={() => navigation.navigate("Ideas List", {uid: id})}>Cancel</Button>
+        <CancelButton onPress={() => navigation.navigate("Ideas List", {uid: id})} />
       </View>
     </SafeAreaView>
   )

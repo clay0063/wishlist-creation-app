@@ -6,6 +6,7 @@ import { useList } from "../context/ListContext";
 import ErrorModal from "../components/ErrorModal";
 import bundlePeopleData from "../utils/bundlePeopleData";
 import Calendar from "../components/Calendar";
+import CancelButton from "../components/CancelButton";
 
 const AddPersonScreen = ({ navigation, route }) => {
   const {fullList, updateStorageList} = useList();
@@ -51,6 +52,7 @@ const AddPersonScreen = ({ navigation, route }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
+
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1, width: "100%" }}
@@ -64,27 +66,20 @@ const AddPersonScreen = ({ navigation, route }) => {
             backgroundColor={theme.colors.secondaryContainer}
           />
         </KeyboardAvoidingView>
+
         <Text style={{ color: theme.colors.primary }} variant="titleMedium">Birthday</Text>
         <Calendar theme={theme} onDateChange={handleDateChange}/>
+
         <View style={{flexDirection: "row", marginVertical:10}}>
-          <Button
-            buttonColor={theme.colors.error}
-            textColor={theme.colors.onError}
-            mode="contained-tonal"
-            onPress={() => navigation.navigate("People")}
-          >
-            Cancel
-          </Button>
-          <Button 
-            style={{paddingHorizontal:25, marginLeft:40}}
-            labelStyle={{fontWeight:"bold"}}
-            mode="elevated" 
-            icon="check-underline"
-            disabled={!enabled}
-            onPress={() => handleSaveData()}>
+          <CancelButton onPress={() => navigation.navigate("People")} />
+          
+          <Button style={{paddingHorizontal:25, marginLeft:40}}
+            labelStyle={{fontWeight:"bold"}} mode="elevated" icon="check-underline"
+            disabled={!enabled} onPress={() => handleSaveData()}>
             Save
           </Button>
         </View>
+
       </View>
       <ErrorModal errorMessage={errorMessage} clearError={clearError} />
     </SafeAreaView>
