@@ -1,5 +1,5 @@
-import { useTheme, Button, Text, Divider, IconButton, Badge } from "react-native-paper";
-import { FlatList, View } from "react-native";
+import { useTheme, Button, Text, IconButton, Badge, Surface } from "react-native-paper";
+import { FlatList, View, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
 import { useList } from "../context/ListContext";
@@ -17,9 +17,12 @@ const PeopleScreen = ({navigation, route}) => {
   //if nothing in array then display Nothing saved yet...
   function NoData() {
     return (
-      <View>
-        <Text>You have no people saved yet.</Text>
-        <Button onPress={() => navigation.navigate("Add Person")}>Add a person?</Button>
+      <View style={{flex:1, padding:10}}>
+        <Text variant="titleMedium" style={{textAlign:"center", marginBottom:10}}>You have no people saved yet.</Text>
+        <Button mode="elevated" style={{ alignSelf: 'center' }} 
+        onPress={() => navigation.navigate("Add Person") }>
+          Add a person?
+        </Button>
       </View>
     )
   }
@@ -31,17 +34,24 @@ const PeopleScreen = ({navigation, route}) => {
     const number = ideas.length;
     const visible = number > 0;
     return (
-      <View style={{padding:30}}>
-        <Text>{name}</Text>
-        <Text>{dateString}</Text>
-        <View>
-          <IconButton mode="contained" icon="lightbulb-on-outline" 
-            onPress={() => navigation.navigate("Idea List", {uid: uid})}>
-            Ideas 
-          </IconButton>
-          <Badge visible={visible} style={{position: 'absolute', top: -2, right: 15, backgroundColor:theme.colors.primary}}>{number}</Badge>
-        </View>
-      </View>
+      <Pressable onPress={() => navigation.navigate("Idea List", {uid: uid})}>
+        <Surface elevation={1} style={styles.surface}>
+          <View style={styles.innerSurface}>
+            <View>
+              <Text>{name}</Text>
+              <Text>{dateString}</Text>
+            </View>
+            
+            <View>
+              <IconButton mode="contained" icon="lightbulb-on-outline" 
+                onPress={() => navigation.navigate("Idea List", {uid: uid})}>
+                Ideas 
+              </IconButton>
+              <Badge visible={visible} style={{position: 'absolute', top: 0, right: 0, backgroundColor:theme.colors.primary}}>{number}</Badge>
+            </View>
+          </View>
+        </Surface>
+      </Pressable>
     )
   }
 
@@ -65,8 +75,6 @@ const PeopleScreen = ({navigation, route}) => {
   return (
     <SafeAreaView style={{flex:1}}>
       <View style={styles.container}>
-        <Text variant="titleLarge">People List</Text>
-        <Divider style={{width:'100%'}} />
         <FlatList
           data={SortByDate(fullList)}
           renderItem={ ({item}) => (
@@ -79,6 +87,7 @@ const PeopleScreen = ({navigation, route}) => {
           )}
           keyExtractor={(person)=> person.uid}
           ListEmptyComponent={<NoData />}
+          style={{width:"90%"}}
         />
       </View>
     </SafeAreaView>
@@ -91,6 +100,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 4,
   },
+  surface: {
+    padding: 10,
+    margin: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 15,
+    backgroundColor: "#fff"
+  },
+  innerSurface: {
+    flexDirection: "row", 
+    justifyContent: "space-between", 
+    alignItems: "center", 
+    padding: 10, 
+    width: "100%" 
+  }
 });
 
 
