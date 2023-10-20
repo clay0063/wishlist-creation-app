@@ -1,5 +1,5 @@
 
-import * as Crypto from 'expo-crypto';
+import * as Crypto from "expo-crypto";
 
 const bundlePeopleData = (name, dob) => {
   const personName = name.trim();
@@ -23,4 +23,4 @@ const dateMath = (date) => {
   return dateObject;
 };
 
-export default bundlePeopleData
+export default bundlePeopleData;

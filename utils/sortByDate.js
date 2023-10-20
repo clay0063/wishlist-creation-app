@@ -13,6 +13,6 @@ const sortByDate = (data) => {
   } else {
     return data
   }
-}
+};
 
-export default sortByDate
+export default sortByDate;
