@@ -1,16 +1,23 @@
-import { Text, Button, TextInput, Portal, Modal } from "react-native-paper";
+import { Text, Button, TextInput, Portal, Modal, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DatePicker from "react-native-modern-datepicker";
 import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useList } from "../context/ListContext";
 
 const AddPersonScreen = ({ navigation, route }) => {
   const {fullList, updateStorageList} = useList();
+  const [enabled, setEnabled] = useState(false);
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
   const [visible, setVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const theme = useTheme();
+
+  useEffect(() => {
+    const inputs = name.trim() !== "" && dob.length !== 0
+    setEnabled(inputs);
+  }, [name, dob]);
 
   const showModal = () => setVisible(true);
   const hideModal = () => {
@@ -73,49 +80,55 @@ const AddPersonScreen = ({ navigation, route }) => {
 
   //TODO: make it so that the Save Button is disabled unless both are filled out
   return (
-    <SafeAreaView style={{ flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <KeyboardAvoidingView>
-          <Text>Name</Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1, width: "100%" }}
+        >
+          <Text style={{ color: theme.colors.primary, textAlign: "center" }} variant="titleMedium">Name</Text>
           <TextInput
-            // label="Name"
+            placeholder="Name"
             value={name}
             onChangeText={(text) => setName(text)}
             style={{ width: "100%" }}
+            backgroundColor={theme.colors.secondaryContainer}
           />
         </KeyboardAvoidingView>
-        <Text>Birthday</Text>
+        <Text style={{ color: theme.colors.primary }} variant="titleMedium">Birthday</Text>
         <DatePicker
-          // options={{
-          //   backgroundColor: '#090C08',
-          //   textHeaderColor: '#FFA25B',
-          //   textDefaultColor: '#F6E7C1',
-          //   selectedTextColor: '#fff',
-          //   mainColor: '#F4722B',
-          //   textSecondaryColor: '#D6C7A1',
-          //   borderColor: 'rgba(122, 146, 165, 0.1)'
-          // }}
+          options={{
+            backgroundColor: theme.colors.secondaryContainer,
+            textHeaderColor: theme.colors.onSecondaryContainer,
+            textDefaultColor: theme.colors.onSecondaryContainer,
+            selectedTextColor: theme.colors.onSecondary,
+            mainColor: theme.colors.onSecondaryContainer,
+            textSecondaryColor: theme.colors.tertiary,
+            borderColor: theme.colors.tertiary
+          }}
           onSelectedChange={(date) => setDob(date)}
           mode="calendar"
         />
-        <Button mode="outlined" onPress={() => handleSaveData()}>
-          Save
-        </Button>
-        <Button
-          buttonColor="red"
-          mode="contained"
-          onPress={() => navigation.navigate("People")}
-        >
-          Cancel
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => {
-            updateStorageList([]);
-          }}
-        >
-          Clear Full List
-        </Button>
+        <View style={{flexDirection: "row", marginVertical:10}}>
+          <Button
+            buttonColor={theme.colors.error}
+            textColor={theme.colors.onError}
+            mode="contained-tonal"
+            onPress={() => navigation.navigate("People")}
+          >
+            Cancel
+          </Button>
+          <Button 
+            style={{paddingHorizontal:25, marginLeft:40}}
+            labelStyle={{fontWeight:"bold"}}
+            mode="elevated" 
+            icon="check-underline"
+            disabled={!enabled}
+            onPress={() => handleSaveData()}>
+            Save
+          </Button>
+        </View>
+        
       </View>
       <ErrorModal />
     </SafeAreaView>
