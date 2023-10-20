@@ -50,8 +50,8 @@ const AddPersonScreen = ({ navigation, route }) => {
 
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1, width: "100%" }}
-        >
+          style={{ flex: 1, width: "100%" }}>
+            
           <Text style={{ color: theme.colors.primary, textAlign: "center" }} variant="titleMedium">Name</Text>
           <TextInput
             placeholder="Name"

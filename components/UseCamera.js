@@ -64,10 +64,9 @@ const UseCamera = ({ onPhotoTaken }) => {
   return (
     <ScrollView>
     <View>
-      <Text>Camera View</Text>
       { hasPermission ? (
         <>
-          <Text>{'Granted'}</Text>
+        <Text style={{marginBottom:5}}>Press the camera icon to take a picture.</Text>
           <Camera type={type} ref={(r)=>{camera = r}} ratio={ratio} >
             <Pressable onPress={()=>{takePhoto()}}>
               <View style={{backgroundColor:'black', flex:1, alignItems:'center'}}>
@@ -77,7 +76,7 @@ const UseCamera = ({ onPhotoTaken }) => {
           </Camera>
         </>
       ) : (
-        <Text>No camera for you.</Text>
+        <Text>Please check your camera permissions.</Text>
       ) }
     </View>
   </ScrollView>
