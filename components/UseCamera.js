@@ -1,23 +1,22 @@
-import { Camera, CameraType } from 'expo-camera';
-import { Text } from 'react-native-paper';
-import { StyleSheet, View, ScrollView, Pressable, Image } from 'react-native';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { useRef, useState, useEffect } from 'react';
-import { useWindowDimensions } from 'react-native';
+import { Text } from "react-native-paper";
+import { View, ScrollView, Pressable, useWindowDimensions } from "react-native";
+import { useRef, useState, useEffect } from "react";
+import { Camera, CameraType } from "expo-camera";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const UseCamera = ({ onPhotoTaken }) => {
+  const [type, setType] = useState(CameraType.back);
+  const [hasPermission, setHasPermission] = useState(false);
   const screen = useWindowDimensions();
+  let camera = useRef();
+  const ratio = "3:2"
   const screenWidth = screen.width;
   const screenHeight = screen.height;
-  const ratio = "3:2"
-  const [type, setType] = useState(CameraType.back);
-  let camera = useRef();
-  const [hasPermission, setHasPermission] = useState(false);
 
   useEffect(()=>{
     Camera.requestCameraPermissionsAsync()
     .then(permissions => {
-      if ( permissions.status === 'granted' ){
+      if ( permissions.status === "granted" ){
         setHasPermission(true);
       } else { setHasPermission(false); }
       
@@ -26,23 +25,23 @@ const UseCamera = ({ onPhotoTaken }) => {
       // result from getAvailablePictureSizesAsync()
       console.log(result)
     })
-    .catch(err=>console.log(err.message))
+    .catch(err=>console.warn(err.message))
   }, []);
 
   function takePhoto(){
     if(!hasPermission){
-      console.log('No permission to take photo');
+      console.warn("No permission to take photo");
       return;
     }
 
     camera.getAvailablePictureSizesAsync().then((sizes) => {
       console.log({ sizes });
-    }).catch((error)=>{console.log(error)});
+    }).catch((error)=>{console.warn(error)});
 
     const opts = {
       zoom: 0.2, //0-1
       quality: 0.8, //0-1
-      imageType: 'jpg', //or 'png'
+      imageType: "jpg", //or "png"
       skipProcessing: false, //if true doesnt correct rotation issues
     }
     //save img info in a state variable when taking photo
@@ -51,14 +50,13 @@ const UseCamera = ({ onPhotoTaken }) => {
       if(pic){
         let w = screenWidth * 0.6 //makes it 60%
         let h = (w / pic.width) * pic.height //gets the ratio image size and scales down
-        console.log(w, h)
         onPhotoTaken({uri: pic.uri, width:w, height: h})
       } else {
         //no pic
       }
 
     })
-    .catch(err=>console.log(err.message))
+    .catch(err=>console.warn(err.message))
   }
 
   return (
@@ -69,7 +67,7 @@ const UseCamera = ({ onPhotoTaken }) => {
         <Text style={{marginBottom:5}}>Press the camera icon to take a picture.</Text>
           <Camera type={type} ref={(r)=>{camera = r}} ratio={ratio} >
             <Pressable onPress={()=>{takePhoto()}}>
-              <View style={{backgroundColor:'black', flex:1, alignItems:'center'}}>
+              <View style={{backgroundColor:"black", flex:1, alignItems:"center"}}>
                 <MaterialIcons name="camera-alt" size={50} color="white"></MaterialIcons>
               </View>
             </Pressable>
@@ -83,4 +81,4 @@ const UseCamera = ({ onPhotoTaken }) => {
   )
 }
 
-export default UseCamera
+export default UseCamera;

@@ -1,11 +1,8 @@
-import { Button, useTheme } from 'react-native-paper'
-import { useState, useEffect } from 'react';
-import React from 'react'
+import { Button } from "react-native-paper";
+import { useState, useEffect } from "react";
 
 const CancelButton = ({text, data, onPress}) => {
   const [enabled, setEnabled] = useState(false);
-  
-  const theme = useTheme();
 
   useEffect(() => {
     const inputs = text.trim() !== "" && data
@@ -19,10 +16,11 @@ const CancelButton = ({text, data, onPress}) => {
       mode="elevated"
       icon="check-underline"
       disabled={!enabled}
-      onPress={onPress}>
+      onPress={onPress}
+    >
     Save
   </Button>
   )
 }
 
-export default CancelButton
+export default CancelButton;

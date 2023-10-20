@@ -18,4 +18,4 @@ const Calendar = ({ theme, onDateChange }) => {
   )
 }
 
-export default Calendar
+export default Calendar;

@@ -1,5 +1,4 @@
-import { Button, useTheme } from 'react-native-paper'
-import React from 'react'
+import { Button, useTheme } from "react-native-paper";
 
 const CancelButton = ({onPress}) => {
   const theme = useTheme();
@@ -16,4 +15,4 @@ const CancelButton = ({onPress}) => {
   )
 }
 
-export default CancelButton
+export default CancelButton;

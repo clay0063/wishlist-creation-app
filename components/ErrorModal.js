@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Portal, Modal, Text } from "react-native-paper";
 
 const ErrorModal = ({ errorMessage, clearError }) => {
@@ -20,7 +20,7 @@ const ErrorModal = ({ errorMessage, clearError }) => {
       <Modal
         visible={visible}
         onDismiss={onDismiss}
-        contentContainerStyle={{ backgroundColor: 'white', padding: 20 }}
+        contentContainerStyle={{ backgroundColor: "white", padding: 20 }}
       >
         <Text>{errorMessage}</Text>
       </Modal>

@@ -1,10 +1,10 @@
 import { Text, Surface, IconButton, Badge, useTheme} from "react-native-paper";
-import { View, Pressable, StyleSheet } from 'react-native';
+import { View, Pressable, StyleSheet } from "react-native";
 
 const ListItem = ({navigation, uid, name, date, ideas}) => {
   const theme = useTheme();
   const dateObject = new Date(date)
-  const dateString = dateObject.toLocaleDateString('en-ca', {month:'long', day:'numeric'});
+  const dateString = dateObject.toLocaleDateString("en-ca", {month:"long", day:"numeric"});
   const number = ideas.length;
   const visible = number > 0;
   return (
@@ -21,7 +21,7 @@ const ListItem = ({navigation, uid, name, date, ideas}) => {
               onPress={() => navigation.navigate("Idea List", {uid: uid})}>
               Ideas 
             </IconButton>
-            <Badge visible={visible} style={{position: 'absolute', top: 0, right: 0, backgroundColor:theme.colors.primary}}>{number}</Badge>
+            <Badge visible={visible} style={{position: "absolute", top: 0, right: 0, backgroundColor:theme.colors.primary}}>{number}</Badge>
           </View>
         </View>
       </Surface>

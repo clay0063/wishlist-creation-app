@@ -24,9 +24,9 @@ const ImageModal = ({ imageURL, clearImage }) => {
         contentContainerStyle={styles.modalContainer}
       >
         {imageURL ? (
-          <Image source={{ uri: imageURL }} style={{ width: '85%', height: '85%' }} />
+          <Image source={{ uri: imageURL }} style={styles.enlargedImage} />
         ) : null}
-        <View style={{ marginTop: 20, width: '100%' }}>
+        <View style={styles.buttonContainer}>
           <Button mode="elevated" onPress={()=>onDismiss()} style={{ alignSelf: 'center'}}>Close Image</Button>
         </View>
       </Modal>
@@ -36,11 +36,19 @@ const ImageModal = ({ imageURL, clearImage }) => {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    backgroundColor: 'white', 
+    backgroundColor: "white", 
     padding: 20, 
-    alignItems: 'center', 
-    justifyContent: 'center', 
+    alignItems: "center", 
+    justifyContent: "center", 
     flex: 1
+  },
+  enlargedImage: {
+    width: "85%", 
+    height: "85%"
+  },
+  buttonContainer: {
+    marginTop: 20, 
+    width: "100%"
   }
 })
 

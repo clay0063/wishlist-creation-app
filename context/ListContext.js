@@ -1,10 +1,10 @@
-import { createContext, useState, useContext, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createContext, useState, useContext, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ListContext = createContext(); //create the context object
+const ListContext = createContext();
 
 function ListProvider(props) {
-  const FULL_LIST_KEY = 'full_people_list';
+  const FULL_LIST_KEY = "full_people_list";
   const [fullList, setFullList] = useState([]);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function ListProvider(props) {
     });
   }, []);
 
-  async function updateStorageList(newList) {
+  const updateStorageList = async (newList) => {
     if (newList !== undefined) {
       setFullList(newList);
       await AsyncStorage.setItem(FULL_LIST_KEY, JSON.stringify(newList));
@@ -36,7 +36,6 @@ function ListProvider(props) {
     const itemList = newList[personIndex].ideas;
     const itemIndex = itemList.findIndex((idea) => idea.id === itemID);
     itemList.splice(itemIndex, 1);
-    console.log(newList[personIndex]);
     await updateStorageList(newList);
   }
 
@@ -63,9 +62,8 @@ function ListProvider(props) {
 }
 
 function useList() {
-  //can be called from components to use the [fullList, setFullList]
   const context = useContext(ListContext);
-  if (!context) throw new Error('Not inside the Provider');
+  if (!context) throw new Error("Not inside the Provider");
   return context; 
 }
 
