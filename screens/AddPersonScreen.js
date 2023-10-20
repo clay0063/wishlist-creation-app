@@ -1,11 +1,11 @@
 import { Text, Button, TextInput, Portal, Modal, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import DatePicker from "react-native-modern-datepicker";
 import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { useState, useEffect } from "react";
 import { useList } from "../context/ListContext";
 import ErrorModal from "../components/ErrorModal";
 import bundlePeopleData from "../utils/bundlePeopleData";
+import Calendar from "../components/Calendar";
 
 const AddPersonScreen = ({ navigation, route }) => {
   const {fullList, updateStorageList} = useList();
@@ -26,6 +26,10 @@ const AddPersonScreen = ({ navigation, route }) => {
 
   const clearError = () => {
     setErrorMessage("");
+  };
+
+  const handleDateChange = (date) => {
+    setDob(date);
   };
 
   const handleSaveData = async () => {
@@ -61,19 +65,7 @@ const AddPersonScreen = ({ navigation, route }) => {
           />
         </KeyboardAvoidingView>
         <Text style={{ color: theme.colors.primary }} variant="titleMedium">Birthday</Text>
-        <DatePicker
-          options={{
-            backgroundColor: theme.colors.secondaryContainer,
-            textHeaderColor: theme.colors.onSecondaryContainer,
-            textDefaultColor: theme.colors.onSecondaryContainer,
-            selectedTextColor: theme.colors.onSecondary,
-            mainColor: theme.colors.onSecondaryContainer,
-            textSecondaryColor: theme.colors.tertiary,
-            borderColor: theme.colors.tertiary
-          }}
-          onSelectedChange={(date) => setDob(date)}
-          mode="calendar"
-        />
+        <Calendar theme={theme} onDateChange={handleDateChange}/>
         <View style={{flexDirection: "row", marginVertical:10}}>
           <Button
             buttonColor={theme.colors.error}
