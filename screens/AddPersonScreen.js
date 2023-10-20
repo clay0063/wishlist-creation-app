@@ -73,7 +73,7 @@ const AddPersonScreen = ({ navigation, route }) => {
 
   //TODO: make it so that the Save Button is disabled unless both are filled out
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+    <SafeAreaView style={{ flex: 1}}>
       <View style={styles.container}>
         <KeyboardAvoidingView>
           <Text>Name</Text>

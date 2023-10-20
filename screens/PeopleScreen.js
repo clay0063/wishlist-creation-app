@@ -1,6 +1,5 @@
-import { Button, Text, Divider, IconButton } from "react-native-paper";
+import { useTheme, Button, Text, Divider, IconButton, Badge } from "react-native-paper";
 import { FlatList, View } from "react-native";
-import { useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
 import { useList } from "../context/ListContext";
@@ -26,17 +25,22 @@ const PeopleScreen = ({navigation, route}) => {
   }
   
   //if array then loop thru and display
-  function ListItem({uid, name, date}) {
+  function ListItem({uid, name, date, ideas}) {
     const dateObject = new Date(date)
     const dateString = dateObject.toLocaleDateString('en-ca', {month:'long', day:'numeric'});
+    const number = ideas.length;
+    const visible = number > 0;
     return (
       <View style={{padding:30}}>
         <Text>{name}</Text>
         <Text>{dateString}</Text>
-        <IconButton mode="contained" icon="lightbulb-on-outline"
-          onPress={() => navigation.navigate("Idea List", {uid: uid})}>
-          Ideas
-        </IconButton>
+        <View>
+          <IconButton mode="contained" icon="lightbulb-on-outline" 
+            onPress={() => navigation.navigate("Idea List", {uid: uid})}>
+            Ideas 
+          </IconButton>
+          <Badge visible={visible} style={{position: 'absolute', top: -2, right: 15, backgroundColor:theme.colors.primary}}>{number}</Badge>
+        </View>
       </View>
     )
   }
@@ -59,7 +63,7 @@ const PeopleScreen = ({navigation, route}) => {
   }
 
   return (
-    <SafeAreaView style={{flex:1, backgroundColor:"#fff"}}>
+    <SafeAreaView style={{flex:1}}>
       <View style={styles.container}>
         <Text variant="titleLarge">People List</Text>
         <Divider style={{width:'100%'}} />
@@ -70,6 +74,7 @@ const PeopleScreen = ({navigation, route}) => {
               uid={item.uid}
               name={item.name}
               date={item.date}
+              ideas={item.ideas}
             />
           )}
           keyExtractor={(person)=> person.uid}

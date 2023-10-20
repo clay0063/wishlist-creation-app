@@ -3,7 +3,6 @@ import { View, FlatList, Image } from 'react-native'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useList } from "../context/ListContext";
-import React, { useEffect } from 'react'
 
 const IdeaScreen = ({route, navigation}) => {
   const { getItemsByID, deleteItem } = useList();
@@ -11,7 +10,12 @@ const IdeaScreen = ({route, navigation}) => {
 
   async function deleteIdea(itemID) {
     console.log(route.params.uid, itemID);
-    await deleteItem(route.params.uid, itemID);
+    try {
+      await deleteItem(route.params.uid, itemID);
+    } catch (error) {
+      console.log(error);
+    }
+    
   }
 
   function NoData() {
@@ -41,7 +45,7 @@ const IdeaScreen = ({route, navigation}) => {
   }
 
   return (
-    <SafeAreaView style={{flex:1, backgroundColor:"#fff"}}>
+    <SafeAreaView style={{flex:1}}>
       <View style={styles.container}>
         <Text>Item list</Text>
         <FlatList

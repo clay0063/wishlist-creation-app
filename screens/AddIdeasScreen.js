@@ -40,7 +40,7 @@ const AddIdeasScreen = ({navigation, route}) => {
   }
 
   return (
-    <SafeAreaView style={{flex:1, backgroundColor:"#fff"}}>
+    <SafeAreaView style={{flex:1}}>
       <View style={styles.container}>
         <Text>Item Name</Text>
         <TextInput

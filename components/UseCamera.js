@@ -34,6 +34,11 @@ const UseCamera = ({ onPhotoTaken }) => {
       console.log('No permission to take photo');
       return;
     }
+
+    camera.getAvailablePictureSizesAsync().then((sizes) => {
+      console.log({ sizes });
+    }).catch((error)=>{console.log(error)});
+
     const opts = {
       zoom: 0.2, //0-1
       quality: 0.8, //0-1
