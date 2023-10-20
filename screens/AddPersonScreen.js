@@ -4,13 +4,13 @@ import DatePicker from "react-native-modern-datepicker";
 import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { useState, useEffect } from "react";
 import { useList } from "../context/ListContext";
+import ErrorModal from "../components/ErrorModal";
 
 const AddPersonScreen = ({ navigation, route }) => {
   const {fullList, updateStorageList} = useList();
   const [enabled, setEnabled] = useState(false);
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
-  const [visible, setVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const theme = useTheme();
 
@@ -19,9 +19,11 @@ const AddPersonScreen = ({ navigation, route }) => {
     setEnabled(inputs);
   }, [name, dob]);
 
-  const showModal = () => setVisible(true);
-  const hideModal = () => {
-    setVisible(false);
+  const handleSetErrorMessage = () => {
+    setErrorMessage("Test message");
+  };
+
+  const clearError = () => {
     setErrorMessage("");
   };
 
@@ -62,20 +64,6 @@ const AddPersonScreen = ({ navigation, route }) => {
     const hoursOffset = offset / 60;
     dateObject.setHours(dateObject.getHours() + hoursOffset);
     return dateObject;
-  };
-
-  const ErrorModal = () => {
-    return (
-      <Portal>
-        <Modal
-          visible={visible}
-          onDismiss={hideModal}
-          contentContainerStyle={{ backgroundColor: "white", padding: 20 }}
-        >
-          <Text>{errorMessage}</Text>
-        </Modal>
-      </Portal>
-    );
   };
 
   //TODO: make it so that the Save Button is disabled unless both are filled out
@@ -128,9 +116,10 @@ const AddPersonScreen = ({ navigation, route }) => {
             Save
           </Button>
         </View>
+          <Button mode="contained" onPress={() => handleSetErrorMessage()} title="Show Error" />
         
       </View>
-      <ErrorModal />
+      <ErrorModal errorMessage={errorMessage} clearError={clearError} />
     </SafeAreaView>
   );
 };
