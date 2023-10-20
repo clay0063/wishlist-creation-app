@@ -1,10 +1,12 @@
-import { Text, Button, TextInput } from 'react-native-paper'
+import { Text, TextInput } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { View, StyleSheet, Image } from 'react-native'
+import { View, StyleSheet, Image, KeyboardAvoidingView } from 'react-native'
 import { useState } from 'react'
 import { useList } from '../context/ListContext';
 import UseCamera from "../components/UseCamera";
 import CancelButton from '../components/CancelButton';
+import SaveButton from "../components/SaveButton";
+import bundleIdeaData from "../utils/bundleIdeaData"
 
 
 const AddIdeasScreen = ({navigation, route}) => {
@@ -15,7 +17,7 @@ const AddIdeasScreen = ({navigation, route}) => {
 
   const handleSaveData = async () => {
     if (text.trim() !== '' && image) {
-      const data = bundleData();
+      const data = bundleIdeaData(text, image);
       try {
         await addItemByID(id, data);
         navigation.navigate("Idea List", {uid: id})
@@ -32,25 +34,23 @@ const AddIdeasScreen = ({navigation, route}) => {
     setImage(img);
   }
 
-  const bundleData = () => {
-    const itemName = text.trim();
-    const random = Math.random().toString(16).substring(2);
-    const id = random;
-    const dataBundle = {...image, "text": itemName, "id": id };
-    return dataBundle;
-  }
-
   return (
     <SafeAreaView style={{flex:1}}>
+
       <View style={styles.container}>
-        <Text>Item Name</Text>
-        <TextInput
-          // label="Name"
-          value={text}
-          onChangeText={text => setText(text)}
-          style={{width:"100%"}}
-        />
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={{ flex: 1, width: "100%" }} >
+          <Text>Item Name</Text>
+          <TextInput
+            value={text}
+            onChangeText={text => setText(text)}
+            style={{width:"100%"}}
+          />
+        </KeyboardAvoidingView>
+        
         <UseCamera onPhotoTaken={handlePhotoTaken} />
+
         <View>
           <Text>Image View</Text>
           {image ? (
@@ -59,8 +59,12 @@ const AddIdeasScreen = ({navigation, route}) => {
             <Text>No image currently</Text>
           )}
         </View>
-        <Button mode="outlined" onPress={() => handleSaveData()}>Save</Button>
-        <CancelButton onPress={() => navigation.navigate("Ideas List", {uid: id})} />
+
+        <View style={{flexDirection: "row", marginVertical:10}}>
+          <CancelButton onPress={() => navigation.navigate("Idea List", {uid: id})} />
+          <SaveButton text={text} data={image} onPress={() => handleSaveData()} />
+        </View>
+
       </View>
     </SafeAreaView>
   )
