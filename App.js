@@ -3,25 +3,26 @@ import { PaperProvider } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useEffect, useState } from "react";
 import { ListProvider, useList } from './context/ListContext.js';
 import PeopleScreen from "./screens/PeopleScreen";
 import AddPersonScreen from "./screens/AddPersonScreen";
 import IdeaScreen from "./screens/IdeaScreen";
 import AddIdeasScreen from "./screens/AddIdeasScreen";
-
-// const theme = {
-//   ...DefaultTheme,
-//   colors: {
-//     ...DefaultTheme.colors,
-//     primary: 'tomato',
-//     secondary: 'yellow',
-//   },
-// };
-// <PaperProvider theme={theme}></PaperProvider>
+import * as SplashScreen from 'expo-splash-screen';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  useEffect(() => {
+    SplashScreen.preventAutoHideAsync();
+
+    // Hide SplashScreen after 2 seconds
+    setTimeout(() => {
+      SplashScreen.hideAsync()
+    }, 2000);
+  }, []);
 
   return (
     <SafeAreaProvider>

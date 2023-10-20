@@ -5,9 +5,12 @@ import { StyleSheet } from "react-native";
 import { useList } from "../context/ListContext";
 import { useEffect } from "react";
 
+
+
 const PeopleScreen = ({navigation, route}) => {
   const theme = useTheme();
   const {fullList, updateStorageList} = useList();
+
 
   useEffect(()=>{
     console.log(fullList);
