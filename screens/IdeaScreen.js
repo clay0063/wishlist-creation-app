@@ -1,16 +1,26 @@
 import { Button, Text, Surface, Divider, useTheme } from "react-native-paper";
-import { View, FlatList, Image, StyleSheet } from 'react-native'
+import { View, FlatList, Image, StyleSheet, Pressable, TouchableWithoutFeedback, TouchableHighlight } from 'react-native'
 import { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useList } from "../context/ListContext";
 import ErrorModal from "../components/ErrorModal";
+import ImageModal from "../components/ImageModal";
 
 const IdeaScreen = ({route, navigation}) => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [imageURL, setImageURL] = useState("");
   const { getItemsByID, deleteItem, getPersonName } = useList();
   const name = getPersonName(route.params.uid);
   const items = getItemsByID(route.params.uid);
   const theme = useTheme();
+
+  const showImageModal = (imageURL) => {
+    setImageURL(imageURL);
+  };
+
+  const clearImageModal = () => {
+    setImageURL("");
+  };
 
   const showModal = (error) => {
     setErrorMessage(error);
@@ -52,7 +62,9 @@ const IdeaScreen = ({route, navigation}) => {
     return(
       <Surface elevation={1} style={styles.surface}>
         <View style={{flexDirection:"row", padding:10}}>
-          <Image source={{uri:params.img}} width={w} height={h} />
+          <TouchableHighlight onPress={() => showImageModal(params.img)}>
+            <Image source={{uri:params.img}} width={w} height={h} />
+          </TouchableHighlight>
           <View style={{flex:1, marginLeft:20, justifyContent:"space-between"}}>
             <Text variant="titleLarge">{params.text}</Text>
             <Button
@@ -88,6 +100,7 @@ const IdeaScreen = ({route, navigation}) => {
         />
       </View>
       <ErrorModal errorMessage={errorMessage} clearError={clearError} />
+      <ImageModal imageURL={imageURL} clearImage={clearImageModal}/>
     </SafeAreaView>
   )
 }

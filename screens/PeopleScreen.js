@@ -33,12 +33,13 @@ const PeopleScreen = ({navigation, route}) => {
         <FlatList
           data={sortByDate(fullList)}
           renderItem={ ({item}) => (
-            <ListItem 
-              uid={item.uid}
-              name={item.name}
-              date={item.date}
-              ideas={item.ideas}
-            />
+              <ListItem 
+                navigation={navigation}
+                uid={item.uid}
+                name={item.name}
+                date={item.date}
+                ideas={item.ideas}
+              />
           )}
           keyExtractor={(person)=> person.uid}
           ListEmptyComponent={<NoData />}

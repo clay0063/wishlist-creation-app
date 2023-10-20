@@ -18,12 +18,12 @@ export default function App() {
   useEffect(() => {
     SplashScreen.preventAutoHideAsync();
 
-    // I can't get the proper way to work, trying it a few ways... keep getting:
+    // I can't get the proper way to work, after trying it a few ways... keep getting:
     // Error: Rendered more hooks than during the previous render.
-    // So using this as a placeholder that's working for now. thanks :) 
+    // So using this as a placeholder that's working for now. thanks :^) 
     setTimeout(() => {
       SplashScreen.hideAsync()
-    }, 2000);
+    }, 1500);
   }, []);
 
   return (

@@ -1,7 +1,7 @@
 import { Text, Surface, IconButton, Badge, useTheme} from "react-native-paper";
 import { View, Pressable, StyleSheet } from 'react-native';
 
-const ListItem = ({uid, name, date, ideas}) => {
+const ListItem = ({navigation, uid, name, date, ideas}) => {
   const theme = useTheme();
   const dateObject = new Date(date)
   const dateString = dateObject.toLocaleDateString('en-ca', {month:'long', day:'numeric'});
