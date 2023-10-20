@@ -29,3 +29,14 @@ const ErrorModal = ({ errorMessage, clearError }) => {
 };
 
 export default ErrorModal;
+
+// Set it up with:
+// const [errorMessage, setErrorMessage] = useState("");
+// const handleSetErrorMessage = () => {
+//   setErrorMessage("Test message");
+// };
+
+// const clearError = () => {
+//   setErrorMessage("");
+// };
+// <ErrorModal errorMessage={errorMessage} clearError={clearError} />

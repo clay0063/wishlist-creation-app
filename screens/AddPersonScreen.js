@@ -5,6 +5,7 @@ import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { useState, useEffect } from "react";
 import { useList } from "../context/ListContext";
 import ErrorModal from "../components/ErrorModal";
+import bundlePeopleData from "../utils/bundlePeopleData";
 
 const AddPersonScreen = ({ navigation, route }) => {
   const {fullList, updateStorageList} = useList();
@@ -19,8 +20,8 @@ const AddPersonScreen = ({ navigation, route }) => {
     setEnabled(inputs);
   }, [name, dob]);
 
-  const handleSetErrorMessage = () => {
-    setErrorMessage("Test message");
+  const showModal = (error) => {
+    setErrorMessage(error);
   };
 
   const clearError = () => {
@@ -29,7 +30,8 @@ const AddPersonScreen = ({ navigation, route }) => {
 
   const handleSaveData = async () => {
     if (name.trim() !== "" && dob.length !== 0) {
-      const data = bundleData();
+      const data = bundlePeopleData(name, dob);
+      console.log(data);
       try {
         await updateStorageList([...fullList, data]);
         navigation.navigate("People");
@@ -42,31 +44,6 @@ const AddPersonScreen = ({ navigation, route }) => {
     }
   };
 
-  const bundleData = () => {
-    const personName = name.trim();
-    const dateString = dob.replaceAll("/", "-");
-    const personDate = dateMath(dateString);
-    const index = fullList.length;
-    const random = Math.random().toString(16).substring(2);
-    const uid = index + "-" + random;
-    const dataBundle = {
-      name: personName,
-      date: personDate,
-      uid: uid,
-      ideas: [],
-    };
-    return dataBundle;
-  };
-
-  const dateMath = (date) => {
-    const dateObject = new Date(date);
-    const offset = dateObject.getTimezoneOffset();
-    const hoursOffset = offset / 60;
-    dateObject.setHours(dateObject.getHours() + hoursOffset);
-    return dateObject;
-  };
-
-  //TODO: make it so that the Save Button is disabled unless both are filled out
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -116,8 +93,6 @@ const AddPersonScreen = ({ navigation, route }) => {
             Save
           </Button>
         </View>
-          <Button mode="contained" onPress={() => handleSetErrorMessage()} title="Show Error" />
-        
       </View>
       <ErrorModal errorMessage={errorMessage} clearError={clearError} />
     </SafeAreaView>
