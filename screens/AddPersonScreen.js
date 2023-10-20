@@ -1,26 +1,21 @@
 import { Text, Button, TextInput, Portal, Modal, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useList } from "../context/ListContext";
 import ErrorModal from "../components/ErrorModal";
 import bundlePeopleData from "../utils/bundlePeopleData";
 import Calendar from "../components/Calendar";
 import CancelButton from "../components/CancelButton";
+import SaveButton from "../components/SaveButton";
 
 const AddPersonScreen = ({ navigation, route }) => {
   const {fullList, updateStorageList} = useList();
-  const [enabled, setEnabled] = useState(false);
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const theme = useTheme();
-
-  useEffect(() => {
-    const inputs = name.trim() !== "" && dob.length !== 0
-    setEnabled(inputs);
-  }, [name, dob]);
-
+  
   const showModal = (error) => {
     setErrorMessage(error);
   };
@@ -73,11 +68,7 @@ const AddPersonScreen = ({ navigation, route }) => {
         <View style={{flexDirection: "row", marginVertical:10}}>
           <CancelButton onPress={() => navigation.navigate("People")} />
           
-          <Button style={{paddingHorizontal:25, marginLeft:40}}
-            labelStyle={{fontWeight:"bold"}} mode="elevated" icon="check-underline"
-            disabled={!enabled} onPress={() => handleSaveData()}>
-            Save
-          </Button>
+          <SaveButton text={name} data={dob} onPress={() => handleSaveData()} />
         </View>
 
       </View>
