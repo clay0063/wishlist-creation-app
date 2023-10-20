@@ -45,12 +45,18 @@ function ListProvider(props) {
     return person.ideas;
   }
 
+  const getPersonName = (id) => {
+    const person = fullList.find((item) => item.uid === id);
+    return person.name;
+  }
+
   const contextValue = {
     fullList, 
     updateStorageList, 
     addItemByID, 
     getItemsByID,
-    deleteItem
+    deleteItem,
+    getPersonName
   }
 
   return <ListContext.Provider value={contextValue} {...props} />;
