@@ -32,8 +32,8 @@ export default ErrorModal;
 
 // Set it up with:
 // const [errorMessage, setErrorMessage] = useState("");
-// const handleSetErrorMessage = () => {
-//   setErrorMessage("Test message");
+// const showModal = (error) => {
+//   setErrorMessage(error);
 // };
 
 // const clearError = () => {

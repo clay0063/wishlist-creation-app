@@ -1,8 +1,9 @@
-import { Text, TextInput, useTheme } from 'react-native-paper'
+import { Text, TextInput, useTheme, Button } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { View, StyleSheet, Image, KeyboardAvoidingView } from 'react-native'
 import { useState } from 'react'
 import { useList } from '../context/ListContext';
+import ErrorModal from '../components/ErrorModal';
 import UseCamera from "../components/UseCamera";
 import CancelButton from '../components/CancelButton';
 import SaveButton from "../components/SaveButton";
@@ -13,7 +14,16 @@ const AddIdeasScreen = ({navigation, route}) => {
   const id = route.params.uid;
   const [text, setText] = useState("");
   const [image, setImage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
   const theme = useTheme();
+
+  const showModal = (error) => {
+    setErrorMessage(error);
+  };
+
+  const clearError = () => {
+    setErrorMessage("");
+  };
 
   const handleSaveData = async () => {
     if (text.trim() !== '' && image) {
@@ -22,10 +32,10 @@ const AddIdeasScreen = ({navigation, route}) => {
         await addItemByID(id, data);
         navigation.navigate("Idea List", {uid: id})
       } catch (error) {
-        console.log(error)
+        showModal(error.message);
       }
     } else { 
-      console.log('missing name or date')
+      showModal("You must have both an idea name and picture.")
     }
   };
 
@@ -67,8 +77,10 @@ const AddIdeasScreen = ({navigation, route}) => {
           <CancelButton onPress={() => navigation.navigate("Idea List", {uid: id})} />
           <SaveButton text={text} data={image} onPress={() => handleSaveData()} />
         </View>
-
       </View>
+
+      <ErrorModal errorMessage={errorMessage} clearError={clearError} />
+
     </SafeAreaView>
   )
 }

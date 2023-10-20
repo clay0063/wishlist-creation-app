@@ -36,11 +36,10 @@ const AddPersonScreen = ({ navigation, route }) => {
         await updateStorageList([...fullList, data]);
         navigation.navigate("People");
       } catch (error) {
-        setErrorMessage(error.message);
-        showModal();
+        showModal(error.message);
       }
     } else {
-      console.log("missing name or date");
+      showModal("You must include both a name and birthday.")
     }
   };
 
@@ -51,7 +50,7 @@ const AddPersonScreen = ({ navigation, route }) => {
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1, width: "100%" }}>
-            
+
           <Text style={{ color: theme.colors.primary, textAlign: "center" }} variant="titleMedium">Name</Text>
           <TextInput
             placeholder="Name"

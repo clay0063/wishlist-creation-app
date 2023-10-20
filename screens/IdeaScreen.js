@@ -3,18 +3,30 @@ import { View, FlatList, Image } from 'react-native'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useList } from "../context/ListContext";
+import ErrorModal from "../components/ErrorModal";
 
 const IdeaScreen = ({route, navigation}) => {
+  const [errorMessage, setErrorMessage] = useState("");
   const { getItemsByID, deleteItem, getPersonName } = useList();
   const name = getPersonName(route.params.uid);
   const items = getItemsByID(route.params.uid);
   const theme = useTheme();
 
+  const showModal = (error) => {
+    setErrorMessage(error);
+  };
+
+  const clearError = () => {
+    setErrorMessage("");
+  };
+  
+
+
   async function deleteIdea(itemID) {
     try {
       await deleteItem(route.params.uid, itemID);
     } catch (error) {
-      console.log(error);
+      showModal(error.message);
     }
     
   }
@@ -77,6 +89,7 @@ const IdeaScreen = ({route, navigation}) => {
           style={{width:"90%"}}
         />
       </View>
+      <ErrorModal errorMessage={errorMessage} clearError={clearError} />
     </SafeAreaView>
   )
 }
