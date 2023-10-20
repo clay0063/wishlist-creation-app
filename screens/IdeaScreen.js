@@ -1,18 +1,20 @@
 import { Button, Text, Surface, Divider, useTheme } from "react-native-paper";
-import { View, FlatList, Image, StyleSheet, Pressable, TouchableWithoutFeedback, TouchableHighlight } from 'react-native'
-import { useState } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { View, FlatList, Image, StyleSheet, TouchableHighlight } from "react-native";
+import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useList } from "../context/ListContext";
 import ErrorModal from "../components/ErrorModal";
 import ImageModal from "../components/ImageModal";
 
 const IdeaScreen = ({route, navigation}) => {
+  const { getItemsByID, deleteItem, getPersonName } = useList();
+  const theme = useTheme();
+
   const [errorMessage, setErrorMessage] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const { getItemsByID, deleteItem, getPersonName } = useList();
+
   const name = getPersonName(route.params.uid);
   const items = getItemsByID(route.params.uid);
-  const theme = useTheme();
 
   const showImageModal = (imageURL) => {
     setImageURL(imageURL);
@@ -43,7 +45,7 @@ const IdeaScreen = ({route, navigation}) => {
     return (
       <View style={{flex:1, padding:10}}>
         <Text variant="titleMedium" style={{textAlign:"center", marginBottom:10}}>No ideas saved yet.</Text>
-        <Button mode="elevated" style={{ alignSelf: 'center' }} 
+        <Button mode="elevated" style={{ alignSelf: "center" }} 
         onPress={() => navigation.navigate("Add Idea", {uid: route.params.uid}) }>
           Add an idea?
         </Button>
@@ -76,13 +78,13 @@ const IdeaScreen = ({route, navigation}) => {
         </View>
       </Surface>
     )
-  }
+  };
 
   return (
     <SafeAreaView style={{flex:1}}>
       <View style={styles.container}>
         <Text variant="headlineSmall">Ideas for {name}</Text>
-        <Divider style={{width:'100%', margin:2}} />
+        <Divider style={{width:"100%", margin:2}} />
         <FlatList
           data={items}
           renderItem={ ({item}) => (
@@ -103,12 +105,12 @@ const IdeaScreen = ({route, navigation}) => {
       <ImageModal imageURL={imageURL} clearImage={clearImageModal}/>
     </SafeAreaView>
   )
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 4,
   },
   surface: {
@@ -121,4 +123,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default IdeaScreen
+export default IdeaScreen;

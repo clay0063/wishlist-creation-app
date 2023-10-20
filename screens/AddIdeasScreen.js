@@ -1,21 +1,23 @@
-import { Text, TextInput, useTheme, Button } from 'react-native-paper'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { View, StyleSheet, Image, KeyboardAvoidingView } from 'react-native'
-import { useState } from 'react'
-import { useList } from '../context/ListContext';
-import ErrorModal from '../components/ErrorModal';
+import { Text, TextInput, useTheme } from "react-native-paper"
+import { SafeAreaView } from "react-native-safe-area-context"
+import { View, StyleSheet, Image, KeyboardAvoidingView } from "react-native"
+import { useState } from "react"
+import { useList } from "../context/ListContext";
+import ErrorModal from "../components/ErrorModal";
 import UseCamera from "../components/UseCamera";
-import CancelButton from '../components/CancelButton';
+import CancelButton from "../components/CancelButton";
 import SaveButton from "../components/SaveButton";
-import bundleIdeaData from "../utils/bundleIdeaData"
+import bundleIdeaData from "../utils/bundleIdeaData";
 
 const AddIdeasScreen = ({navigation, route}) => {
   const {addItemByID} = useList();
-  const id = route.params.uid;
+  const theme = useTheme();
+
+  const [errorMessage, setErrorMessage] = useState("");
   const [text, setText] = useState("");
   const [image, setImage] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("");
-  const theme = useTheme();
+
+  const id = route.params.uid;
 
   const showModal = (error) => {
     setErrorMessage(error);
@@ -26,7 +28,7 @@ const AddIdeasScreen = ({navigation, route}) => {
   };
 
   const handleSaveData = async () => {
-    if (text.trim() !== '' && image) {
+    if (text.trim() !== "" && image) {
       const data = bundleIdeaData(text, image);
       try {
         await addItemByID(id, data);
@@ -41,7 +43,7 @@ const AddIdeasScreen = ({navigation, route}) => {
 
   const handlePhotoTaken = (img) => {
     setImage(img);
-  }
+  };
 
   return (
     <SafeAreaView style={{flex:1}}>
@@ -83,15 +85,15 @@ const AddIdeasScreen = ({navigation, route}) => {
 
     </SafeAreaView>
   )
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 4,
   },
 });
 
-export default AddIdeasScreen
+export default AddIdeasScreen;

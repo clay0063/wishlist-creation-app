@@ -1,4 +1,4 @@
-import { Text, Button, TextInput, Portal, Modal, useTheme } from "react-native-paper";
+import { Text, TextInput, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { useState } from "react";
@@ -11,10 +11,11 @@ import SaveButton from "../components/SaveButton";
 
 const AddPersonScreen = ({ navigation, route }) => {
   const {fullList, updateStorageList} = useList();
+  const theme = useTheme();
+
+  const [errorMessage, setErrorMessage] = useState("");
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const theme = useTheme();
   
   const showModal = (error) => {
     setErrorMessage(error);
