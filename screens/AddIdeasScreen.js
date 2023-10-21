@@ -6,6 +6,7 @@ import {
   Image,
   KeyboardAvoidingView,
   ScrollView,
+  Dimensions
 } from "react-native";
 import { useState } from "react";
 import { useList } from "../context/ListContext";
@@ -24,6 +25,7 @@ const AddIdeasScreen = ({ navigation, route }) => {
   const [image, setImage] = useState(null);
 
   const id = route.params.uid;
+  const screenWidth = Dimensions.get('window').width;
 
   const showModal = (error) => {
     setErrorMessage(error);
@@ -52,8 +54,14 @@ const AddIdeasScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-        <View style={styles.container}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <ScrollView contentContainerStyle={{ width: screenWidth, alignItems: "center" }}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1, width: "100%", justifyContent: "space-around" }}
+        >
+          <View style={{ flex: 1 }}>
             <Text
               style={{ color: theme.colors.primary, textAlign: "center" }}
               variant="titleMedium"
@@ -67,38 +75,41 @@ const AddIdeasScreen = ({ navigation, route }) => {
               style={{ width: "100%" }}
               backgroundColor={theme.colors.secondaryContainer}
             />
-
-            <Text
-              style={{ color: theme.colors.primary, textAlign: "center" }}
-              variant="titleMedium"
-            >
-              Take a Picture
-            </Text>
-            <UseCamera onPhotoTaken={handlePhotoTaken} />
-
-            <View style={{margin:10}}>
-              {image ? (
-                <Image
-                  source={{ uri: image.uri }}
-                  width={image.width}
-                  height={image.height}
-                ></Image>
-              ) : (
-                <Text>Take an image!</Text>
-              )}
-            </View>
-
-          <View style={{ flexDirection: "row", marginVertical: 10 }}>
-            <CancelButton
-              onPress={() => navigation.navigate("Idea List", { uid: id })}
-            />
-            <SaveButton
-              text={text}
-              data={image}
-              onPress={() => handleSaveData()}
-            />
           </View>
+        </KeyboardAvoidingView>
+
+        <View style={{ flex: 1 }}>
+          <Text
+            style={{ color: theme.colors.primary, textAlign: "center" }}
+            variant="titleMedium"
+          >
+            Take a Picture
+          </Text>
+          <UseCamera onPhotoTaken={handlePhotoTaken} />
         </View>
+
+        <View style={{ margin: 10 }}>
+          {image ? (
+            <Image
+              source={{ uri: image.uri }}
+              width={image.width}
+              height={image.height}
+            ></Image>
+          ) : null}
+        </View>
+        </ScrollView>
+
+        <View style={{ flexDirection: "row", marginVertical: 10 }}>
+          <CancelButton
+            onPress={() => navigation.navigate("Idea List", { uid: id })}
+          />
+          <SaveButton
+            text={text}
+            data={image}
+            onPress={() => handleSaveData()}
+          />
+        </View>
+      </View>
       <ErrorModal errorMessage={errorMessage} clearError={clearError} />
     </SafeAreaView>
   );
