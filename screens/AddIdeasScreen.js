@@ -71,7 +71,7 @@ const AddIdeasScreen = ({navigation, route}) => {
           {image ? (
             <Image source={{uri:image.uri}} width={image.width} height={image.height}></Image>
           ) : (
-            <Text>No image currently</Text>
+            <Text>Take an image!</Text>
           )}
         </View>
 

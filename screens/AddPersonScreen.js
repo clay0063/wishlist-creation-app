@@ -1,6 +1,12 @@
 import { Text, TextInput, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
+import {
+  Platform,
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import { useState } from "react";
 import { useList } from "../context/ListContext";
 import ErrorModal from "../components/ErrorModal";
@@ -10,13 +16,13 @@ import CancelButton from "../components/CancelButton";
 import SaveButton from "../components/SaveButton";
 
 const AddPersonScreen = ({ navigation, route }) => {
-  const {fullList, updateStorageList} = useList();
+  const { fullList, updateStorageList } = useList();
   const theme = useTheme();
 
   const [errorMessage, setErrorMessage] = useState("");
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
-  
+
   const showModal = (error) => {
     setErrorMessage(error);
   };
@@ -40,38 +46,56 @@ const AddPersonScreen = ({ navigation, route }) => {
         showModal(error.message);
       }
     } else {
-      showModal("You must include both a name and birthday.")
+      showModal("You must include both a name and birthday.");
     }
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
+      <ScrollView>
+        <View style={styles.container}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={{ flex: 1, width: "100%", justifyContent: "space-around" }}
+          >
+            <View>
+              <Text
+                style={{ color: theme.colors.primary, textAlign: "center" }}
+                variant="titleMedium"
+              >
+                Name
+              </Text>
+              <TextInput
+                placeholder="Name"
+                value={name}
+                onChangeText={(text) => setName(text)}
+                style={{ width: "100%" }}
+                backgroundColor={theme.colors.secondaryContainer}
+              />
+            </View>
 
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1, width: "100%" }}>
+            <View>
+              <Text
+                style={{ color: theme.colors.primary, textAlign: "center" }}
+                variant="titleMedium"
+              >
+                Birthday
+              </Text>
+              <Calendar theme={theme} onDateChange={handleDateChange} />
+            </View>
+          </KeyboardAvoidingView>
 
-          <Text style={{ color: theme.colors.primary, textAlign: "center" }} variant="titleMedium">Name</Text>
-          <TextInput
-            placeholder="Name"
-            value={name}
-            onChangeText={(text) => setName(text)}
-            style={{ width: "100%" }}
-            backgroundColor={theme.colors.secondaryContainer}
-          />
-        </KeyboardAvoidingView>
+          <View style={{ flexDirection: "row", marginVertical: 10 }}>
+            <CancelButton onPress={() => navigation.navigate("People")} />
 
-        <Text style={{ color: theme.colors.primary }} variant="titleMedium">Birthday</Text>
-        <Calendar theme={theme} onDateChange={handleDateChange}/>
-
-        <View style={{flexDirection: "row", marginVertical:10}}>
-          <CancelButton onPress={() => navigation.navigate("People")} />
-          
-          <SaveButton text={name} data={dob} onPress={() => handleSaveData()} />
+            <SaveButton
+              text={name}
+              data={dob}
+              onPress={() => handleSaveData()}
+            />
+          </View>
         </View>
-
-      </View>
+      </ScrollView>
       <ErrorModal errorMessage={errorMessage} clearError={clearError} />
     </SafeAreaView>
   );
@@ -84,6 +108,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 4,
   },
+  avoidanceContainer: {},
 });
 
 export default AddPersonScreen;
