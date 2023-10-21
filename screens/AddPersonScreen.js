@@ -6,6 +6,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import { useState } from "react";
 import { useList } from "../context/ListContext";
@@ -22,6 +23,8 @@ const AddPersonScreen = ({ navigation, route }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
+
+  const screenWidth = Dimensions.get("window").width;
 
   const showModal = (error) => {
     setErrorMessage(error);
@@ -52,13 +55,15 @@ const AddPersonScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
-        <View style={styles.container}>
+      <View style={styles.container}>
+        <ScrollView
+          contentContainerStyle={{ width: screenWidth, alignItems: "center" }}
+        >
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1, width: "100%", justifyContent: "space-around" }}
           >
-            <View>
+            <View style={{ flex: 1 }}>
               <Text
                 style={{ color: theme.colors.primary, textAlign: "center" }}
                 variant="titleMedium"
@@ -74,7 +79,7 @@ const AddPersonScreen = ({ navigation, route }) => {
               />
             </View>
 
-            <View>
+            <View style={{ flex: 1 }}>
               <Text
                 style={{ color: theme.colors.primary, textAlign: "center" }}
                 variant="titleMedium"
@@ -84,6 +89,7 @@ const AddPersonScreen = ({ navigation, route }) => {
               <Calendar theme={theme} onDateChange={handleDateChange} />
             </View>
           </KeyboardAvoidingView>
+        </ScrollView>
 
           <View style={{ flexDirection: "row", marginVertical: 10 }}>
             <CancelButton onPress={() => navigation.navigate("People")} />
@@ -94,8 +100,7 @@ const AddPersonScreen = ({ navigation, route }) => {
               onPress={() => handleSaveData()}
             />
           </View>
-        </View>
-      </ScrollView>
+      </View>
       <ErrorModal errorMessage={errorMessage} clearError={clearError} />
     </SafeAreaView>
   );
