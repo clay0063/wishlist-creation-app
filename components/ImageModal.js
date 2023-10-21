@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View, Dimensions } from "react-native";
 import { Portal, Modal, Button } from "react-native-paper";
 
 const ImageModal = ({ imageURL, clearImage }) => {
   const [visible, setVisible] = useState(false);
+  const { width } = Dimensions.get("window");
 
   useEffect(() => {
     if (imageURL) {
@@ -24,7 +25,7 @@ const ImageModal = ({ imageURL, clearImage }) => {
         contentContainerStyle={styles.modalContainer}
       >
         {imageURL ? (
-          <Image source={{ uri: imageURL }} style={styles.enlargedImage} />
+          <Image source={{ uri: imageURL }} style={{ width: width * 0.85, aspectRatio: 2 / 3 }} />
         ) : null}
         <View style={styles.buttonContainer}>
           <Button mode="elevated" onPress={()=>onDismiss()} style={{ alignSelf: 'center'}}>Close Image</Button>
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
   },
   enlargedImage: {
     width: "85%", 
-    height: "85%"
+    height: "auto"
   },
   buttonContainer: {
     marginTop: 20, 
