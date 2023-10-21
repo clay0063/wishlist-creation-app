@@ -41,7 +41,6 @@ const AddPersonScreen = ({ navigation, route }) => {
   const handleSaveData = async () => {
     if (name.trim() !== "" && dob.length !== 0) {
       const data = bundlePeopleData(name, dob);
-      console.log(data);
       try {
         await updateStorageList([...fullList, data]);
         navigation.navigate("People");
