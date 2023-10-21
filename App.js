@@ -31,7 +31,10 @@ export default function App() {
       <PaperProvider>
         <ListProvider>
           <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator
+              screenOptions={{
+                headerTitleAlign: 'center', // This centers the title
+              }}>
               <Stack.Screen name="People" component={PeopleScreen}
                 options={({ navigation }) => ({
                   headerRight: () => (
